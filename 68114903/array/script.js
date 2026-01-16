@@ -27,11 +27,20 @@ for(let i=0; i<score.length; i++){
 for(let i=0; i<car.length; i++){
     console.log("car[",i,"] = ", car[i]);
 }
-console.log("---- for of ------");
+console.log("---- for of ------"); //แสดงค่าของข้อมูลทั้งหมดใน array
 for(let data of score){
     console.log(data);
 }
 
 for(let data of car){
     console.log(data);
+}
+
+console.log("---- for in ------");  // for in แลดงตำแหน่ง index ของ array
+for(let i in score){
+    console.log("score index",i);
+}
+
+for(let i in car){
+    console.log("car index",i);
 }
