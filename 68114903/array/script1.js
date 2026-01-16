@@ -6,6 +6,12 @@ let arr = [];
 
 function addData() {
     let num = parseFloat(n.value);
-    console.log(typeof(num));
+    arr.unshift(num);
+    out.innerHTML = "";
+    for (let i = 0; i < arr.length; i++) {
+        out.innerHTML = out.innerHTML+arr[i] + "<br>";
+    }
+    console.log(arr);
     // console.log("add");
 }
+
