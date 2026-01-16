@@ -24,3 +24,14 @@ console.log("---- for loop -------");
 for(let i=0; i<score.length; i++){
     console.log("score[",i,"] = ", score[i]);
 }
+for(let i=0; i<car.length; i++){
+    console.log("car[",i,"] = ", car[i]);
+}
+console.log("---- for of ------");
+for(let data of score){
+    console.log(data);
+}
+
+for(let data of car){
+    console.log(data);
+}
