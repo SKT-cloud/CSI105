@@ -44,3 +44,32 @@ for(let i in score){
 for(let i in car){
     console.log("car index",i);
 }
+
+console.log("---- Array add/delete DATA -----");
+console.log("before score : ", score);
+// push เพิ่มข้อมูลตัวสุดท้าย
+score.push(10);
+console.log("after push score : ", score);
+// pop ลบข้อมูลตัวสุดท้าย
+score.pop();
+console.log("after pop score : ", score);
+// unshift เพิ่มข้อมูลตัวแรก
+score.unshift(5);
+console.log("after unshift score : ", score);
+// shift ลบข้อมูลตัวแรก
+score.shift();
+console.log("after shift score : ", score);
+
+console.log("before car : ", car);
+car.push("Nissan");
+console.log("after push car : ", car);
+car.pop();
+console.log("after pop car : ", car);  
+car.unshift("Mazda");
+console.log("after unshift car : ", car);
+car.shift();
+console.log("after shift car : ", car);
+
+
+
+
