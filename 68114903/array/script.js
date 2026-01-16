@@ -10,3 +10,6 @@ console.log(score[2]);
 console.log(car[0]);
 score[3] = 45
 console.log("score after update = ", score);
+console.log("length of score = ", score.length);
+console.log("length of car = ", car.length);
+console.log("length of score1 = ", score1.length);
