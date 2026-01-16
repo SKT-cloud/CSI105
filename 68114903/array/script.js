@@ -70,6 +70,18 @@ console.log("after unshift car : ", car);
 car.shift();
 console.log("after shift car : ", car);
 
+console.log("---- copy----");
+score1 = score.slice(); // การ copy Array ต้องใช้ slice() เท่านั้น
+// ใน Array การใช้ = จะเป็นการอ้างอิงข้อมูล คือใช้ข้อมูลก้อนเดียวกัน 
+// เพิ่ม/ลบข้อมูลที่ตัวใดตัวหนึ่ง ข้อมูลอีกตัวก็จะเปลี่ยนตามไปด้วย
+console.log("before score : ", score);
+console.log("before score1 : ", score1);
+score1.push(55)
+console.log("before score : ", score);
+console.log("before score1 : ", score1);
+
+
+
 
 
 
