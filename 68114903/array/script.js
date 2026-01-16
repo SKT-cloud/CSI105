@@ -20,3 +20,7 @@ console.log(score[2]);
 console.log(score[3]);
 console.log(score[4]);
 console.log(score[5]);
+console.log("---- for loop -------");
+for(let i=0; i<score.length; i++){
+    console.log("score[",i,"] = ", score[i]);
+}
