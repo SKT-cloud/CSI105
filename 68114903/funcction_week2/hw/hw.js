@@ -10,7 +10,24 @@ function calculateSum(n) {
 }
 
 function showResult() {
-    result1.innerText = "Sum = " + calculateSum(parseFloat(n1.value));
+    let n = parseInt(n1.value);
+    let text = "Sum of ";
+
+    for (let i = 0; i <= n; i++) {
+        text += i;
+        if (i < n) {
+            text += "+";
+        }
+    }
+
+    text += " = " + calculateSum(n);
+
+    result1.innerText = text;
+    n1.value = "";
+}
+
+function ClearSum(){
+    result1.innerText = "";
     n1.value = "";
 }
 
@@ -26,5 +43,10 @@ function fibonacci(n) {
 
 function showFibonacciResult(){
     result2.innerText = "Fibonacci = " + fibonacci(parseFloat(n2.value));
+    n2.value = "";
+}
+
+function ClearFibonacci(){
+    result2.innerText = "";
     n2.value = "";
 }
