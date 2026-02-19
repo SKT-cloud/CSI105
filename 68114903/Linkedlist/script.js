@@ -3,8 +3,9 @@
 // ==========================
 class Node {
   constructor(elem) {
-    this.element = elem;  // ข้อมูล
-    this.next = null;     // ชี้ไปโหนดถัดไป (ถ้าไม่มี = null)
+    // ตอนนี้ this = object Node ที่เพิ่งถูกสร้างด้วย new Node(...)
+    this.element = elem;
+    this.next = null;
   }
 }
 
@@ -13,16 +14,21 @@ class Node {
 // ===========================================
 class LinkedList {
   constructor() {
-    this.firstNode = null; // ชี้โหนดแรก
-    this.lastNode = null;  // ชี้โหนดสุดท้าย
-    this.length = 0;       // จำนวนสมาชิก
+    // ตอนนี้ this = object LinkedList ที่เพิ่งถูกสร้างด้วย new LinkedList()
+    this.firstNode = null;
+    this.lastNode = null;
+    this.length = 0;
   }
 
   // ==========================
   // 3) push(value) เพิ่มท้าย
   // ==========================
   push(value) {
+    // ตอนนี้ this = object LinkedList ที่เรียก push (เช่น myList)
+
     const newNode = new Node(value);
+    // ↑ ตอนเข้า constructor ของ Node: this เปลี่ยนไปเป็น newNode ชั่วคราว
+    // แล้วพอออกจาก constructor ก็กลับมา this = LinkedList เหมือนเดิม
 
     if (this.firstNode === null) {
       // กรณีลิสต์ว่าง
@@ -30,7 +36,7 @@ class LinkedList {
       this.lastNode = newNode;
     } else {
       // กรณีมีสมาชิกแล้ว
-      this.lastNode.next = newNode;
+      this.lastNode.next = newNode; // <-- จุด "เชื่อม" โหนด
       this.lastNode = newNode;
     }
 
@@ -41,9 +47,8 @@ class LinkedList {
   // 4) pop() ลบท้าย
   // ==========================
   pop() {
-    if (this.firstNode === null) return null; // ลิสต์ว่าง
+    if (this.firstNode === null) return null;
 
-    // ถ้ามีตัวเดียว
     if (this.length === 1) {
       const val = this.firstNode.element;
       this.firstNode = null;
@@ -52,7 +57,6 @@ class LinkedList {
       return val;
     }
 
-    // ต้องไล่หาตัวก่อนสุดท้าย
     let currentNode = this.firstNode;
     let beforeNode = this.firstNode;
 
@@ -61,7 +65,6 @@ class LinkedList {
       currentNode = currentNode.next;
     }
 
-    // currentNode = ตัวสุดท้ายเดิม
     beforeNode.next = null;
     this.lastNode = beforeNode;
     this.length--;
@@ -76,12 +79,10 @@ class LinkedList {
     const newNode = new Node(value);
 
     if (this.firstNode === null) {
-      // ลิสต์ว่าง
       this.firstNode = newNode;
       this.lastNode = newNode;
     } else {
-      // ต่อหัว
-      newNode.next = this.firstNode;
+      newNode.next = this.firstNode; // <-- จุด "เชื่อม" แบบเพิ่มหัว
       this.firstNode = newNode;
     }
 
@@ -92,10 +93,10 @@ class LinkedList {
   // 6) shift() ลบหัว
   // ==========================
   shift() {
-    if (this.firstNode === null) return null; // ลิสต์ว่าง
+    if (this.firstNode === null) return null;
 
     const val = this.firstNode.element;
-    this.firstNode = this.firstNode.next;
+    this.firstNode = this.firstNode.next; // <-- ขยับหัวไปตัวถัดไป
     this.length--;
 
     if (this.length === 0) {
@@ -119,7 +120,7 @@ class LinkedList {
       i++;
     }
 
-    return current; // คืน Node
+    return current;
   }
 
   // ==========================
@@ -139,19 +140,16 @@ class LinkedList {
   insert(index, value) {
     if (index < 0 || index > this.length) return false;
 
-    // แทรกหัว = unshift
     if (index === 0) {
       this.unshift(value);
       return true;
     }
 
-    // แทรกท้าย = push
     if (index === this.length) {
       this.push(value);
       return true;
     }
 
-    // แทรกกลาง (ตามสไลด์)
     const newNode = new Node(value);
     const beforeNode = this.get(index - 1);
 
@@ -168,13 +166,9 @@ class LinkedList {
   remove(index) {
     if (index < 0 || index >= this.length) return null;
 
-    // ลบหัว = shift
     if (index === 0) return this.shift();
-
-    // ลบท้าย = pop
     if (index === this.length - 1) return this.pop();
 
-    // ลบกลาง (ตามสไลด์)
     const beforeNode = this.get(index - 1);
     const targetNode = beforeNode.next;
 
@@ -185,12 +179,12 @@ class LinkedList {
     return targetNode.element;
   }
 
-  // ==========================
-  // ช่วยแสดงผล (ไม่ใช่หัวข้อหลัก)
-  // ==========================
+  // ช่วยแสดงผล (เพื่อดูภาพรวม)
   print() {
-    let text = "";
+    if (this.firstNode === null) return "(empty)";
+
     let cur = this.firstNode;
+    let text = "";
 
     while (cur !== null) {
       text += cur.element + " -> ";
@@ -201,28 +195,20 @@ class LinkedList {
   }
 }
 
-// ==========================
-// ตัวอย่างใช้งาน "ตามสไลด์"
-// ==========================
-const myList = new LinkedList();
+// ===========================================
+// ✅ ตรงนี้แหละที่ "new LinkedList()" เกิดขึ้น
+// ===========================================
+const myList = new LinkedList();   // <-- myList คือ object ของ LinkedList
 
-// เพิ่มในลิสต์ว่าง (เหมือนในสไลด์)
-myList.push("a");     // a
-myList.push("b");     // a -> b
-myList.unshift("c");  // c -> a -> b
-
-// เพิ่มตรงกลาง (insert)
+// ทดลองทำตามหัวข้อในสไลด์
+myList.push("a");      // a
+myList.push("b");      // a -> b
+myList.unshift("c");   // c -> a -> b
 myList.insert(2, "g"); // c -> a -> g -> b
-
-// ลบ
-myList.remove(1); // ลบ a => c -> g -> b
-
-// get / set
-const node = myList.get(1); // ได้ g
-myList.set(1, "X");         // c -> X -> b
+myList.remove(1);      // ลบ a -> c -> g -> b
+myList.set(1, "X");    // c -> X -> b
 
 // แสดงผล
 document.getElementById("out").textContent =
   "length = " + myList.length + "\n" +
-  "list   = " + myList.print() + "\n" +
-  "get(1) ก่อน set = " + (node ? node.element : "null");
+  "list   = " + myList.print();
