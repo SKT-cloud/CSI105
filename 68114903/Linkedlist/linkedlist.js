@@ -1,3 +1,5 @@
+const out = document.getElementById("out");
+
 // สร้าง class Node
 // Node คือ "กล่อง" 1 กล่องใน Linked List
 // ภายในจะเก็บข้อมูล (element) และตัวชี้ไปยัง Node ถัดไป (next)
@@ -86,7 +88,7 @@ class LinkedList{
 // เริ่มทดลองใช้งาน
 
 let mylist = new LinkedList();
-console.log(mylist);  // ตอนนี้ยังว่าง
+out.innerHTML = "ตอนนี้ยังว่าง";
 
 // เพิ่มข้อมูลหน้าสุด
 mylist.unshift("a");
