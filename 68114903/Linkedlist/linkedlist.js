@@ -152,11 +152,11 @@ class LinkedList {
     if (index < 0 || index > this.length) {
       return false;
     }
-    if (index === 0) {
+    if (index == 0) {
       this.unshift(value);
       return true;
     }
-    if (index === this.length) {
+    if (index == this.length) {
       this.push(value);
       return true;
     }
