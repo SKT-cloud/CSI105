@@ -9,6 +9,8 @@ const index_input = document.getElementById("index_input");
 const value_input = document.getElementById("value_input");
 const get_btn = document.getElementById("get_btn");
 const set_btn = document.getElementById("set_btn");
+const insert_btn = document.getElementById("insert_btn");
+const remove_btn = document.getElementById("remove_btn");
 const clear_btn = document.getElementById("clear_btn");
 
 // สร้าง class Node
@@ -146,17 +148,47 @@ class LinkedList {
     return true;
   }
 
-  // method สำหรับแสดงค่าทั้งหมดใน LinkedList
-  toArray() {
-    const result = [];
+  insert(index, value) {
+    if (index < 0 || index > this.length) {
+      return false;
+    }
+    if (index === 0) {
+      this.unshift(value);
+      return true;
+    }
+    if (index === this.length) {
+      this.push(value);
+      return true;
+    }
+    const newNode = new Node(value);
     let currentNode = this.firstNode;
-
-    while (currentNode !== null) {
-      result.push(currentNode.element);
+    for (let i = 0; i < index - 1; i++) {
       currentNode = currentNode.next;
     }
+    newNode.next = currentNode.next;
+    currentNode.next = newNode;
+    this.length++;
+    return true;
+  }
 
-    return result;
+  remove(index) {
+    if (index < 0 || index >= this.length) {
+      return undefined;
+    }
+    if (index === 0) {
+      return this.shift();
+    }
+    if (index === this.length - 1) {
+      return this.pop();
+    }
+    let currentNode = this.firstNode;
+    for (let i = 0; i < index - 1; i++) {
+      currentNode = currentNode.next;
+    }
+    const removedNode = currentNode.next;
+    currentNode.next = removedNode.next;
+    this.length--;
+    return removedNode.element;
   }
 
   // method สำหรับแสดงค่าเป็น string
@@ -263,6 +295,39 @@ set_btn.onclick = function () {
     now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
   } else {
     out.innerHTML = `ไม่พบข้อมูลที่ index ${index}`;
+  }
+};
+insert_btn.onclick = function () {
+  const index = Number(index_input.value);
+  if (index_input.value === "" || Number.isNaN(index)) {
+    out.innerHTML = "กรุณาใส่ index สำหรับ insert";
+    return;
+  }
+  const value = value_input.value;
+  if (value === "") {
+    out.innerHTML = "กรุณาใส่ค่าใหม่สำหรับ insert";
+    return;
+  }
+  const inserted = mylist.insert(index, value);
+  if (inserted) {
+    out.innerHTML = `แทรก ${value} ที่ index ${index}`;
+    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
+  } else {
+    out.innerHTML = `ไม่สามารถแทรกที่ index ${index}`;
+  }
+};
+remove_btn.onclick = function () {
+  const index = Number(index_input.value);
+  if (index_input.value === "" || Number.isNaN(index)) {
+    out.innerHTML = "กรุณาใส่ index สำหรับ remove";
+    return;
+  }
+  const removed = mylist.remove(index);
+  if (removed === undefined) {
+    out.innerHTML = `ไม่พบข้อมูลที่ index ${index}`;
+  } else {
+    out.innerHTML = `ลบ ${removed} ที่ index ${index}`;
+    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
   }
 };
 clear_btn.onclick = function () {
