@@ -176,14 +176,12 @@ class LinkedList {
     if (index == this.length - 1) {
       return this.pop();
     }
-    let currentNode = this.firstNode;
-    for (let i = 0; i < index - 1; i++) {
-      currentNode = currentNode.next;
-    }
-    const removedNode = currentNode.next;
-    currentNode.next = removedNode.next;
+    let beforeNode = this.get(index - 1); // ขยับ currentNode ไปยัง node ก่อนตำแหน่งที่ต้องการลบ
+    let currentNode = beforeNode.next; // node ที่ต้องการลบ
+    beforeNode.next = currentNode.next; // ให้ node ก่อนตำแหน่งที่ต้องการลบชี้ไปยัง node ที่อยู่ถัดจาก node ที่ต้องการลบ
+    currentNode.next = null; // ตัดการเชื่อมต่อของ node ที่ต้องการลบออกจากลิสต์
     this.length--;
-    return removedNode.element;
+    return currentNode.element;
   }
 
   // method สำหรับแสดงค่าทั้งหมดใน LinkedList
