@@ -191,6 +191,19 @@ class LinkedList {
     return removedNode.element;
   }
 
+  // method สำหรับแสดงค่าทั้งหมดใน LinkedList
+  toArray() {
+    const result = [];
+    let currentNode = this.firstNode;
+
+    while (currentNode !== null) {
+      result.push(currentNode.element);
+      currentNode = currentNode.next;
+    }
+
+    return result;
+  }
+
   // method สำหรับแสดงค่าเป็น string
   toString() {
     if (this.length === 0) {
