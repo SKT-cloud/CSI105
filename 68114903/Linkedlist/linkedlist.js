@@ -1,4 +1,10 @@
 const out = document.getElementById("out");
+const n = document.getElementById("n");
+const now = document.getElementById("now");
+const push_btn = document.getElementById("push_btn");
+const pop_btn = document.getElementById("pop_btn");
+const shift_btn = document.getElementById("shift_btn");
+const unshift_btn = document.getElementById("unshift_btn");
 
 // สร้าง class Node
 // Node คือ "กล่อง" 1 กล่องใน Linked List
@@ -38,6 +44,7 @@ class LinkedList{
         }
 
         this.length++; // เพิ่มจำนวน node
+        out.innerHTML = `เพิ่ม ${value} ต่อท้ายลิสต์<br>จำนวน node ตอนนี้: ${this.length}`;
     }
 
     // unshift = เพิ่มข้อมูลไว้หน้าสุดของลิสต์
@@ -57,6 +64,7 @@ class LinkedList{
         }
 
         this.length++; // เพิ่มจำนวน node
+        out.innerHTML = `เพิ่ม ${value} ไว้หน้าสุดของลิสต์<br>จำนวน node ตอนนี้: ${this.length}`;
     }
 
     // shift = ลบข้อมูลตัวแรกออกจากลิสต์
@@ -79,8 +87,63 @@ class LinkedList{
             }
 
             // คืนค่าข้อมูลของ node ที่ถูกลบ
+            out.innerHTML = `ลบ ${currentnode.element} ออกจากหน้าสุดของลิสต์<br>จำนวน node ตอนนี้: ${this.length}`;
             return currentnode.element;
         }
+    }
+
+    // pop = ลบข้อมูลตัวสุดท้ายออกจากลิสต์
+    pop(){
+        // ถ้าลิสต์ว่าง ไม่มีอะไรให้ลบ
+        if(this.fristNode == null){
+            return undefined;
+        }
+        
+        // ถ้ามี node เดียว
+        if(this.fristNode === this.lastNode){
+            const value = this.fristNode.element;
+            this.fristNode = null;
+            this.lastNode = null;
+            this.length--;
+            return value;
+        }
+        
+        // ถ้ามีหลาย node ต้องหา node ก่อนสุดท้าย
+        let currentNode = this.fristNode;
+        while(currentNode.next !== this.lastNode){
+            currentNode = currentNode.next;
+        }
+        
+        // เก็บค่าของ node สุดท้ายไว้ก่อน return
+        const value = this.lastNode.element;
+        
+        // ตัดการเชื่อมไปยัง node สุดท้าย
+        currentNode.next = null;
+        this.lastNode = currentNode;
+        this.length--;
+        out.innerHTML = `ลบ ${value} ออกจากท้ายลิสต์<br>จำนวน node ตอนนี้: ${this.length}`;
+        return value;
+    }
+
+    // method สำหรับแสดงค่าทั้งหมดใน LinkedList
+    toArray(){
+        const result = [];
+        let currentNode = this.fristNode;
+        
+        while(currentNode !== null){
+            result.push(currentNode.element);
+            currentNode = currentNode.next;
+        }
+        
+        return result;
+    }
+    
+    // method สำหรับแสดงค่าเป็น string
+    toString(){
+        if(this.length === 0){
+            return "ว่าง";
+        }
+        return this.toArray().join(" → ");
     }
 }
     
@@ -88,36 +151,24 @@ class LinkedList{
 // เริ่มทดลองใช้งาน
 
 let mylist = new LinkedList();
-out.innerHTML = "ตอนนี้ยังว่าง";
-
-// เพิ่มข้อมูลหน้าสุด
-mylist.unshift("a");
-console.log(mylist);
-
-// เพิ่มหน้าสุดอีก
-mylist.unshift("b");
-console.log(mylist);
-
-// เพิ่มหน้าสุดอีก
-mylist.unshift("c");
-console.log(mylist);
-
-// ตอนนี้ลิสต์จะเป็น: c -> b -> a
-
-// ลบตัวแรก
-let d = mylist.shift();
-console.log(mylist);
-console.log("data to delete :", d);  // d คือค่าที่ถูกลบออก
-
-// ลบตัวแรกอีก
-d = mylist.shift();
-console.log(mylist);
-console.log("data to delete :", d);
-
-// ลบตัวแรกอีก
-d = mylist.shift();
-console.log(mylist);
-console.log("data to delete :", d);
+push_btn.onclick = function(){
+    mylist.push(n.value);
+    n.value = "";
+    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
+}
+unshift_btn.onclick = function(){
+    mylist.unshift(n.value);
+    n.value = "";
+    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
+}
+shift_btn.onclick = function(){
+    mylist.shift();
+    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
+}
+pop_btn.onclick = function(){
+    mylist.pop();
+    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
+}
 
 /*
 สรุปแนวคิด Linked List แบบง่าย ๆ
