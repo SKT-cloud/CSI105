@@ -1,214 +1,137 @@
-// ==========================
-// 1) Node (element + next)
-// ==========================
-class Node {
-  constructor(elem) {
-    // ตอนนี้ this = object Node ที่เพิ่งถูกสร้างด้วย new Node(...)
-    this.element = elem;
-    this.next = null;
-  }
+// สร้าง class Node
+// Node คือ "กล่อง" 1 กล่องใน Linked List
+// ภายในจะเก็บข้อมูล (element) และตัวชี้ไปยัง Node ถัดไป (next)
+class Node{
+    constructor(elem){
+        this.element = elem;   // เก็บค่าข้อมูลของ node นี้
+        this.next = null;     // ชี้ไปยัง node ถัดไป (เริ่มต้นยังไม่มี เลยเป็น null)
+    }
 }
 
-// ===========================================
-// 2) LinkedList (firstNode, lastNode, length)
-// ===========================================
-class LinkedList {
-  constructor() {
-    // ตอนนี้ this = object LinkedList ที่เพิ่งถูกสร้างด้วย new LinkedList()
-    this.firstNode = null;
-    this.lastNode = null;
-    this.length = 0;
-  }
+// สร้าง class LinkedList
+class LinkedList{
+    constructor(){
+        // fristNode คือ node ตัวแรกของลิสต์
+        this.fristNode = null;
 
-  // ==========================
-  // 3) push(value) เพิ่มท้าย
-  // ==========================
-  push(value) {
-    // ตอนนี้ this = object LinkedList ที่เรียก push (เช่น myList)
+        // lastNode คือ node ตัวสุดท้ายของลิสต์
+        this.lastNode = null;
 
-    const newNode = new Node(value);
-    // ↑ ตอนเข้า constructor ของ Node: this เปลี่ยนไปเป็น newNode ชั่วคราว
-    // แล้วพอออกจาก constructor ก็กลับมา this = LinkedList เหมือนเดิม
-
-    if (this.firstNode === null) {
-      // กรณีลิสต์ว่าง
-      this.firstNode = newNode;
-      this.lastNode = newNode;
-    } else {
-      // กรณีมีสมาชิกแล้ว
-      this.lastNode.next = newNode; // <-- จุด "เชื่อม" โหนด
-      this.lastNode = newNode;
+        // length ใช้เก็บจำนวน node ทั้งหมดในลิสต์
+        this.length = 0;
     }
 
-    this.length++;
-  }
+    // push = เพิ่มข้อมูลต่อท้ายลิสต์
+    push(value){
+        const newNode = new Node(value); // สร้าง node ใหม่
 
-  // ==========================
-  // 4) pop() ลบท้าย
-  // ==========================
-  pop() {
-    if (this.firstNode === null) return null;
+        // ถ้ายังไม่มี node เลย (ลิสต์ว่าง)
+        if(this.fristNode == null){
+            this.fristNode = newNode;  // ตัวแรก = ตัวใหม่
+            this.lastNode = newNode;   // ตัวสุดท้าย = ตัวใหม่
+        }else{
+            // ถ้ามีข้อมูลอยู่แล้ว
+            this.lastNode.next = newNode; // เอาตัวสุดท้ายชี้ไปที่ตัวใหม่
+            this.lastNode = newNode;      // แล้วอัปเดตตัวสุดท้ายให้เป็นตัวใหม่
+        }
 
-    if (this.length === 1) {
-      const val = this.firstNode.element;
-      this.firstNode = null;
-      this.lastNode = null;
-      this.length = 0;
-      return val;
+        this.length++; // เพิ่มจำนวน node
     }
 
-    let currentNode = this.firstNode;
-    let beforeNode = this.firstNode;
+    // unshift = เพิ่มข้อมูลไว้หน้าสุดของลิสต์
+    unshift(value){
+        const newNode = new Node(value); // สร้าง node ใหม่    
 
-    while (currentNode.next !== null) {
-      beforeNode = currentNode;
-      currentNode = currentNode.next;
+        if(this.fristNode == null){
+            // ถ้าลิสต์ยังว่าง
+            this.fristNode = newNode;  
+            this.lastNode = newNode;
+        }else{
+            // ให้ node ใหม่ชี้ไปที่ตัวแรกเดิม
+            newNode.next = this.fristNode;
+
+            // แล้วอัปเดตให้ node ใหม่กลายเป็นตัวแรก
+            this.fristNode = newNode;
+        }
+
+        this.length++; // เพิ่มจำนวน node
     }
 
-    beforeNode.next = null;
-    this.lastNode = beforeNode;
-    this.length--;
+    // shift = ลบข้อมูลตัวแรกออกจากลิสต์
+    shift(){
+        // ถ้าลิสต์ว่าง ไม่มีอะไรให้ลบ
+        if(this.fristNode == 0){   // (ควรใช้ == null จะดีกว่า)
+            return undefined;
+        }else{
+            // เก็บ node ตัวแรกไว้ก่อน
+            const currentnode = this.fristNode;
 
-    return currentNode.element;
-  }
+            // ขยับตัวแรกไปเป็นตัวถัดไป
+            this.fristNode = this.fristNode.next;
 
-  // =============================
-  // 5) unshift(value) เพิ่มหัว
-  // =============================
-  unshift(value) {
-    const newNode = new Node(value);
+            this.length--; // ลดจำนวน node ลง
 
-    if (this.firstNode === null) {
-      this.firstNode = newNode;
-      this.lastNode = newNode;
-    } else {
-      newNode.next = this.firstNode; // <-- จุด "เชื่อม" แบบเพิ่มหัว
-      this.firstNode = newNode;
+            // ถ้าลบแล้วลิสต์ว่าง
+            if(this.fristNode == null){
+                this.lastNode = null;
+            }
+
+            // คืนค่าข้อมูลของ node ที่ถูกลบ
+            return currentnode.element;
+        }
     }
-
-    this.length++;
-  }
-
-  // ==========================
-  // 6) shift() ลบหัว
-  // ==========================
-  shift() {
-    if (this.firstNode === null) return null;
-
-    const val = this.firstNode.element;
-    this.firstNode = this.firstNode.next; // <-- ขยับหัวไปตัวถัดไป
-    this.length--;
-
-    if (this.length === 0) {
-      this.lastNode = null;
-    }
-
-    return val;
-  }
-
-  // ==========================
-  // 7) get(index) ดึงโหนด
-  // ==========================
-  get(index) {
-    if (index < 0 || index >= this.length) return null;
-
-    let current = this.firstNode;
-    let i = 0;
-
-    while (i < index) {
-      current = current.next;
-      i++;
-    }
-
-    return current;
-  }
-
-  // ==========================
-  // 8) set(index, value) แก้ค่า
-  // ==========================
-  set(index, value) {
-    const node = this.get(index);
-    if (node === null) return false;
-
-    node.element = value;
-    return true;
-  }
-
-  // =========================================
-  // 9) insert(index, value) แทรก (กลางลิสต์)
-  // =========================================
-  insert(index, value) {
-    if (index < 0 || index > this.length) return false;
-
-    if (index === 0) {
-      this.unshift(value);
-      return true;
-    }
-
-    if (index === this.length) {
-      this.push(value);
-      return true;
-    }
-
-    const newNode = new Node(value);
-    const beforeNode = this.get(index - 1);
-
-    newNode.next = beforeNode.next;
-    beforeNode.next = newNode;
-
-    this.length++;
-    return true;
-  }
-
-  // ==================================
-  // 10) remove(index) ลบตามตำแหน่ง
-  // ==================================
-  remove(index) {
-    if (index < 0 || index >= this.length) return null;
-
-    if (index === 0) return this.shift();
-    if (index === this.length - 1) return this.pop();
-
-    const beforeNode = this.get(index - 1);
-    const targetNode = beforeNode.next;
-
-    beforeNode.next = targetNode.next;
-    targetNode.next = null;
-
-    this.length--;
-    return targetNode.element;
-  }
-
-  // ช่วยแสดงผล (เพื่อดูภาพรวม)
-  print() {
-    if (this.firstNode === null) return "(empty)";
-
-    let cur = this.firstNode;
-    let text = "";
-
-    while (cur !== null) {
-      text += cur.element + " -> ";
-      cur = cur.next;
-    }
-
-    return text + "null";
-  }
 }
+    
+//-----main-----
+// เริ่มทดลองใช้งาน
 
-// ===========================================
-// ✅ ตรงนี้แหละที่ "new LinkedList()" เกิดขึ้น
-// ===========================================
-const myList = new LinkedList();   // <-- myList คือ object ของ LinkedList
+let mylist = new LinkedList();
+console.log(mylist);  // ตอนนี้ยังว่าง
 
-// ทดลองทำตามหัวข้อในสไลด์
-myList.push("a");      // a
-myList.push("b");      // a -> b
-myList.unshift("c");   // c -> a -> b
-myList.insert(2, "g"); // c -> a -> g -> b
-myList.remove(1);      // ลบ a -> c -> g -> b
-myList.set(1, "X");    // c -> X -> b
+// เพิ่มข้อมูลหน้าสุด
+mylist.unshift("a");
+console.log(mylist);
 
-// แสดงผล
-document.getElementById("out").textContent =
-  "length = " + myList.length + "\n" +
-  "list   = " + myList.print();
+// เพิ่มหน้าสุดอีก
+mylist.unshift("b");
+console.log(mylist);
+
+// เพิ่มหน้าสุดอีก
+mylist.unshift("c");
+console.log(mylist);
+
+// ตอนนี้ลิสต์จะเป็น: c -> b -> a
+
+// ลบตัวแรก
+let d = mylist.shift();
+console.log(mylist);
+console.log("data to delete :", d);  // d คือค่าที่ถูกลบออก
+
+// ลบตัวแรกอีก
+d = mylist.shift();
+console.log(mylist);
+console.log("data to delete :", d);
+
+// ลบตัวแรกอีก
+d = mylist.shift();
+console.log(mylist);
+console.log("data to delete :", d);
+
+/*
+สรุปแนวคิด Linked List แบบง่าย ๆ
+
+- แต่ละ Node จะมี:
+  1. ข้อมูล (element)
+  2. ตัวชี้ไป node ถัดไป (next)
+
+- LinkedList จะเก็บ:
+  - ตัวแรก (fristNode)
+  - ตัวสุดท้าย (lastNode)
+  - จำนวนข้อมูล (length)
+
+ข้อดี:
+- เพิ่ม/ลบหน้าสุดหรือท้ายสุดได้เร็ว
+
+ข้อเสีย:
+- เข้าถึงข้อมูลตรงกลางแบบ array ไม่ได้ ต้องไล่ทีละ node
+*/
