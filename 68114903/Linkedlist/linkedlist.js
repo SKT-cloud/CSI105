@@ -5,6 +5,7 @@ const push_btn = document.getElementById("push_btn");
 const pop_btn = document.getElementById("pop_btn");
 const shift_btn = document.getElementById("shift_btn");
 const unshift_btn = document.getElementById("unshift_btn");
+const clear_btn = document.getElementById("clear_btn");
 
 // สร้าง class Node
 // Node คือ "กล่อง" 1 กล่องใน Linked List
@@ -87,7 +88,7 @@ class LinkedList{
             }
 
             // คืนค่าข้อมูลของ node ที่ถูกลบ
-            out.innerHTML = `ลบ ${currentnode.element} ออกจากหน้าสุดของลิสต์<br>จำนวน node ตอนนี้: ${this.length}`;
+            out.innerHTML = `ลบ ${currentnode.element} ออกจากด้านหน้าสุดของลิสต์<br>จำนวน node ตอนนี้: ${this.length}`;
             return currentnode.element;
         }
     }
@@ -108,9 +109,27 @@ class LinkedList{
         this.lastNode = beforeNode;
         this.lastNode.next = null;
         this.length--;
-        out.innerHTML = `ลบ ${currentNode.element} ออกจากท้ายลิสต์<br>จำนวน node ตอนนี้: ${this.length}`;
+        if(this.length === 0){
+            this.firstNode = null;
+            this.lastNode = null;
+        }
+        out.innerHTML = `ลบ ${currentNode.element} ออกจากด้านท้ายสุดลิสต์<br>จำนวน node ตอนนี้: ${this.length}`;
         return currentNode.element;
     }
+
+    // method สำหรับเข้าถึงข้อมูลที่ตำแหน่ง index
+    get(index){
+        if(index < 0 || index >= this.length){
+            return undefined;
+        }
+        let currentNode = this.firstNode;
+        for(let i = 0; i < index; i++){
+            currentNode = currentNode.next;
+        }
+        return currentNode.element;
+    }
+
+
 
     // method สำหรับแสดงค่าทั้งหมดใน LinkedList
     toArray(){
@@ -139,26 +158,34 @@ class LinkedList{
 
 let mylist = new LinkedList();
 
+// console.log(mylist);
+// mylist.unshift("a");
+// console.log(mylist);
+// mylist.unshift("b");
+// console.log(mylist);
+// mylist.unshift("c");
+// console.log(mylist);
+// mylist.unshift("d");
+// console.log(mylist);
+// let d = mylist.pop();
+// console.log(mylist);
+// console.log("data to delete : ", d);
+// let d1 = mylist.pop();
+// console.log(mylist);
+// console.log("data to delete : ", d1);
+
+// for(let i = 0; i < mylist.length; i++){
+//     let d = mylist.get(i);
+//     console.log(`data at index ${i} : `, d);
+// }
 
 
-push_btn.onclick = function(){
-    mylist.push(n.value);
-    n.value = "";
-    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
-}
-unshift_btn.onclick = function(){
-    mylist.unshift(n.value);
-    n.value = "";
-    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
-}
-shift_btn.onclick = function(){
-    mylist.shift();
-    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
-}
-pop_btn.onclick = function(){
-    mylist.pop();
-    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
-}
+
+
+
+
+
+
 
 /*
 สรุปแนวคิด Linked List แบบง่าย ๆ
@@ -178,3 +205,28 @@ pop_btn.onclick = function(){
 ข้อเสีย:
 - เข้าถึงข้อมูลตรงกลางแบบ array ไม่ได้ ต้องไล่ทีละ node
 */
+
+// =======เชื่อมปุ่มกับฟังก์ชัน=======
+push_btn.onclick = function(){
+    mylist.push(n.value);
+    n.value = "";
+    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
+}
+unshift_btn.onclick = function(){
+    mylist.unshift(n.value);
+    n.value = "";
+    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
+}
+shift_btn.onclick = function(){
+    mylist.shift();
+    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
+}
+pop_btn.onclick = function(){
+    mylist.pop();
+    now.innerHTML = `ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
+}
+clear_btn.onclick = function(){
+    mylist = new LinkedList();
+    out.innerHTML = "ลิสต์ถูกสร้างใหม่แล้ว";
+    now.innerHTML = `🗑️ ล้างข้อมูลแล้ว <br>ข้อมูลในลิสต์ตอนนี้ (${mylist.length} ตัว): ${mylist.toString()}`;
+}

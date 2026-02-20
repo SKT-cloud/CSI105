@@ -81,6 +81,12 @@ h2 {
     background: #e8e8e8;
 }
 
+.btn-clear {
+    grid-column: 1 / -1;
+    justify-self: center;
+    min-width: 140px;
+}
+
 .output {
     background: #fafafa;
     padding: 16px;
