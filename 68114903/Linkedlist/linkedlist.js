@@ -19,8 +19,8 @@ class Node{
 // สร้าง class LinkedList
 class LinkedList{
     constructor(){
-        // fristNode คือ node ตัวแรกของลิสต์
-        this.fristNode = null;
+        // firstNode คือ node ตัวแรกของลิสต์
+        this.firstNode = null;
 
         // lastNode คือ node ตัวสุดท้ายของลิสต์
         this.lastNode = null;
@@ -34,8 +34,8 @@ class LinkedList{
         const newNode = new Node(value); // สร้าง node ใหม่
 
         // ถ้ายังไม่มี node เลย (ลิสต์ว่าง)
-        if(this.fristNode == null){
-            this.fristNode = newNode;  // ตัวแรก = ตัวใหม่
+        if(this.firstNode == null){
+            this.firstNode = newNode;  // ตัวแรก = ตัวใหม่
             this.lastNode = newNode;   // ตัวสุดท้าย = ตัวใหม่
         }else{
             // ถ้ามีข้อมูลอยู่แล้ว
@@ -51,16 +51,16 @@ class LinkedList{
     unshift(value){
         const newNode = new Node(value); // สร้าง node ใหม่    
 
-        if(this.fristNode == null){
+        if(this.firstNode == null){
             // ถ้าลิสต์ยังว่าง
-            this.fristNode = newNode;  
+            this.firstNode = newNode;  
             this.lastNode = newNode;
         }else{
             // ให้ node ใหม่ชี้ไปที่ตัวแรกเดิม
-            newNode.next = this.fristNode;
+            newNode.next = this.firstNode;
 
             // แล้วอัปเดตให้ node ใหม่กลายเป็นตัวแรก
-            this.fristNode = newNode;
+            this.firstNode = newNode;
         }
 
         this.length++; // เพิ่มจำนวน node
@@ -70,19 +70,19 @@ class LinkedList{
     // shift = ลบข้อมูลตัวแรกออกจากลิสต์
     shift(){
         // ถ้าลิสต์ว่าง ไม่มีอะไรให้ลบ
-        if(this.fristNode == 0){   // (ควรใช้ == null จะดีกว่า)
+        if(this.firstNode == null){   // (ควรใช้ == null จะดีกว่า)
             return undefined;
         }else{
             // เก็บ node ตัวแรกไว้ก่อน
-            const currentnode = this.fristNode;
+            const currentnode = this.firstNode;
 
             // ขยับตัวแรกไปเป็นตัวถัดไป
-            this.fristNode = this.fristNode.next;
+            this.firstNode = this.firstNode.next;
 
             this.length--; // ลดจำนวน node ลง
 
             // ถ้าลบแล้วลิสต์ว่าง
-            if(this.fristNode == null){
+            if(this.firstNode == null){
                 this.lastNode = null;
             }
 
@@ -95,40 +95,27 @@ class LinkedList{
     // pop = ลบข้อมูลตัวสุดท้ายออกจากลิสต์
     pop(){
         // ถ้าลิสต์ว่าง ไม่มีอะไรให้ลบ
-        if(this.fristNode == null){
+        if(this.length == 0){
             return undefined;
         }
-        
-        // ถ้ามี node เดียว
-        if(this.fristNode === this.lastNode){
-            const value = this.fristNode.element;
-            this.fristNode = null;
-            this.lastNode = null;
-            this.length--;
-            return value;
-        }
-        
-        // ถ้ามีหลาย node ต้องหา node ก่อนสุดท้าย
-        let currentNode = this.fristNode;
-        while(currentNode.next !== this.lastNode){
+        let currentNode = this.firstNode;
+        let beforeNode = this.firstNode;
+        while(currentNode.next !== null){
+            beforeNode = currentNode;
             currentNode = currentNode.next;
         }
-        
-        // เก็บค่าของ node สุดท้ายไว้ก่อน return
-        const value = this.lastNode.element;
-        
-        // ตัดการเชื่อมไปยัง node สุดท้าย
-        currentNode.next = null;
-        this.lastNode = currentNode;
+
+        this.lastNode = beforeNode;
+        this.lastNode.next = null;
         this.length--;
-        out.innerHTML = `ลบ ${value} ออกจากท้ายลิสต์<br>จำนวน node ตอนนี้: ${this.length}`;
-        return value;
+        out.innerHTML = `ลบ ${currentNode.element} ออกจากท้ายลิสต์<br>จำนวน node ตอนนี้: ${this.length}`;
+        return currentNode.element;
     }
 
     // method สำหรับแสดงค่าทั้งหมดใน LinkedList
     toArray(){
         const result = [];
-        let currentNode = this.fristNode;
+        let currentNode = this.firstNode;
         
         while(currentNode !== null){
             result.push(currentNode.element);
@@ -151,6 +138,9 @@ class LinkedList{
 // เริ่มทดลองใช้งาน
 
 let mylist = new LinkedList();
+
+
+
 push_btn.onclick = function(){
     mylist.push(n.value);
     n.value = "";
