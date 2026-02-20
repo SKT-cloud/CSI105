@@ -153,22 +153,17 @@ class LinkedList {
       return false;
     }
     if (index == 0) {
-      this.unshift(value);
-      return true;
+      return this.unshift(value);  
     }
     if (index == this.length) {
-      this.push(value);
-      return true;
+      return this.push(value); 
     }
-    const newNode = new Node(value);
-    let currentNode = this.firstNode;
-    for (let i = 0; i < index - 1; i++) {
-      currentNode = currentNode.next;
-    }
-    newNode.next = currentNode.next;
-    currentNode.next = newNode;
+    const newNode = new Node(value);    
+    let beforeNode = this.get(index - 1); // ขยับ currentNode ไปยัง node ก่อนตำแหน่งที่ต้องการแทรก
+    newNode.next = beforeNode.next; // ให้ node ใหม่ชี้ไปยัง node ที่อยู่ในตำแหน่งที่ต้องการแทรก
+    beforeNode.next = newNode; // ให้ node ก่อนตำแหน่งที่ต้องการแทรกชี้ไปยัง node ใหม่
     this.length++;
-    return true;
+    return true;   
   }
 
   remove(index) {
