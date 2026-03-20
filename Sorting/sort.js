@@ -29,11 +29,19 @@ class sort {
 
   shellSort(arr){
     let temp,j
-    letgap = Math.floor(arr.length/2)
+    let gap = Math.floor(arr.length/2)
     while(gap>0){
         for(let i=gap; i<arr.length; i++){
-            
+            temp = arr[i]
+            j = i
+            while(j>=gap && arr[j-gap]>temp){
+                arr[j] = arr[j-gap]
+                j-=gap
+            }
+            arr[j] = temp
         }
+        gap = Math.floor(gap/2)
+        console.log("sorting รอบที่ ", gap, "= ", arr);
     }
 
   }
@@ -50,11 +58,20 @@ for (let i = 0; i < 10; i++) {
 // mySort.insertionSort(data);
 // console.log("data after sort: ", data);
 
-let data1 = [];
+// let data1 = [];
+// for (let i = 0; i < 10; i++) {
+//   data1.push(Math.floor(Math.random() * 100));
+// }
+// console.log("data1 : ", data1);
+// console.log("------ bubble sort ------");
+// mySort.bubbleSort(data1);
+// console.log("data1 after sort: ", data1);
+
+let data2 = [];
 for (let i = 0; i < 10; i++) {
-  data1.push(Math.floor(Math.random() * 100));
+  data2.push(Math.floor(Math.random() * 100));
 }
-console.log("data1 : ", data1);
-console.log("------ bubble sort ------");
-mySort.bubbleSort(data1);
-console.log("data1 after sort: ", data1);
+console.log("data2 : ", data2);
+console.log("------ shell sort ------");
+mySort.shellSort(data2);
+console.log("data2 after sort: ", data2);
