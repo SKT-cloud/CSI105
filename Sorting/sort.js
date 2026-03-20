@@ -34,7 +34,16 @@ let data = [];
 for (let i = 0; i < 10; i++) {
   data.push(Math.floor(Math.random() * 100));
 }
-console.log("data : ", data);
-console.log("------ insertion sort ------");
-mySort.insertionSort(data);
-console.log("data after sort: ", data);
+// console.log("data : ", data);
+// console.log("------ insertion sort ------");
+// mySort.insertionSort(data);
+// console.log("data after sort: ", data);
+
+let data1 = [];
+for (let i = 0; i < 10; i++) {
+  data1.push(Math.floor(Math.random() * 100));
+}
+console.log("data1 : ", data1);
+console.log("------ bubble sort ------");
+mySort.bubbleSort(data1);
+console.log("data1 after sort: ", data1);
