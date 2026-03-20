@@ -13,9 +13,7 @@ const insert_btn = document.getElementById("insert_btn");
 const remove_btn = document.getElementById("remove_btn");
 const clear_btn = document.getElementById("clear_btn");
 
-// สร้าง class Node
-// Node คือ "กล่อง" 1 กล่องใน Linked List
-// ภายในจะเก็บข้อมูล (element) และตัวชี้ไปยัง Node ถัดไป (next)
+
 class Node {
   constructor(elem) {
     this.element = elem; // เก็บค่าข้อมูลของ node นี้
