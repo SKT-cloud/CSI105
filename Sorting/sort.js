@@ -26,6 +26,17 @@ class sort {
       console.log("sorting รอบที่ ", i, "= ", arr);
     }
   }
+
+  shellSort(arr){
+    let temp,j
+    letgap = Math.floor(arr.length/2)
+    while(gap>0){
+        for(let i=gap; i<arr.length; i++){
+            
+        }
+    }
+
+  }
 }
 
 // ------ main ------
